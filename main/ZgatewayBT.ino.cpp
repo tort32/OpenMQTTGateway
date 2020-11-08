@@ -685,9 +685,11 @@ void changelow_power_mode(int newLowPowerMode) {
     M5.Lcd.begin();
 #      endif
   }
-  char lpm[2];
-  sprintf(lpm, "%d", newLowPowerMode);
-  M5Display("Changing LOW POWER mode to:", lpm, "");
+  if (low_power_mode != 2) {
+    char lpm[2];
+    sprintf(lpm, "%d", newLowPowerMode);
+    M5Display("Changing LOW POWER mode to:", lpm, "");
+  }
 #    endif
   low_power_mode = newLowPowerMode;
   preferences.begin(Gateway_Short_Name, false);
