@@ -26,6 +26,52 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "User_config.h"
+/* INO to CPP conversion */
+#include <Arduino.h>
+#include "config_GPIOInput.h"
+#include "config_M5.h"
+
+void pubMQTT(char*, char*);
+void pubMQTT(char*, char*, bool);
+void pubMQTT(String, char*);
+void pubMQTT(char*, unsigned long);
+void pubMQTT(char*, unsigned long long);
+void pubMQTT(char*, String);
+void pubMQTT(String , String);
+void pubMQTT(String, int);
+void pubMQTT(String, unsigned long long);
+void pubMQTT(String, float);
+void pubMQTT(char*, float);
+void pubMQTT(char*, int);
+void pubMQTT(char*, unsigned int);
+void pubMQTT(char*, long);
+void pubMQTT(char*, double);
+void pubMQTT(String, unsigned long);
+void logJson(JsonObject&);
+void disconnection_handling(int);
+void setup_wifimanager(bool);
+void checkButton();
+void receivingMQTT(char*, char*);
+void setOTA();
+void stateMeasures();
+void MQTTtoSYS(char*, JsonObject&);
+
+#ifdef ESP32
+int low_power_mode = DEFAULT_LOW_POWER_MODE;
+#endif
+#ifdef ESP32
+#include "esp_wifi.h"
+uint8_t wifiProtocol = 0; // default mode, automatic selection
+    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B;
+    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G; // can't have only one https://github.com/espressif/esp-idf/issues/702
+    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N; // can't have only one https://github.com/espressif/esp-idf/issues/702
+#elif ESP8266
+uint8_t wifiProtocol = 0; // default mode, automatic selection
+    //uint8_t wifiProtocol = WIFI_PHY_MODE_11B;
+    //uint8_t wifiProtocol = WIFI_PHY_MODE_11G;
+    //uint8_t wifiProtocol = WIFI_PHY_MODE_11N;
+#endif
+/* INO to CPP conversion end */
 
 // Macros and structure to enable the duplicates removing on the following gateways
 #if defined(ZgatewayRF) || defined(ZgatewayIR) || defined(ZgatewaySRFB) || defined(ZgatewaySRFB) || defined(ZgatewayWeatherStation)
@@ -48,10 +94,6 @@ ReceivedSignal receivedSignal[struct_size] = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
 unsigned long timer_sys_measures = 0;
 #  define ARDUINOJSON_USE_LONG_LONG 1
 #endif
-
-#include <ArduinoJson.h>
-#include <ArduinoLog.h>
-#include <PubSubClient.h>
 
 StaticJsonBuffer<JSON_MSG_BUFFER> modulesBuffer;
 JsonArray& modules = modulesBuffer.createArray();
@@ -202,9 +244,6 @@ WiFiClient eClient;
 #  include <Ethernet.h>
 EthernetClient eClient;
 #endif
-
-#define convertTemp_CtoF(c) ((c * 1.8) + 32)
-#define convertTemp_FtoC(f) ((f - 32) * 5 / 9)
 
 // client link to pubsub mqtt
 PubSubClient client(eClient);

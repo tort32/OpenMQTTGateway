@@ -182,23 +182,13 @@ const char* certificate CERT_ATTRIBUTE = R"EOF("
 #  ifndef DEFAULT_LOW_POWER_MODE
 #    define DEFAULT_LOW_POWER_MODE 0
 #  endif
-int low_power_mode = DEFAULT_LOW_POWER_MODE;
+extern int low_power_mode;
 #endif
 
 // WIFI mode, uncomment to force a wifi mode, if not uncommented the ESP will connect without a mode forced
 // if there is a reconnection issue it will try to connect with G mode and if not working with B mode
-#ifdef ESP32
-#  include "esp_wifi.h"
-uint8_t wifiProtocol = 0; // default mode, automatic selection
-    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B;
-    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G; // can't have only one https://github.com/espressif/esp-idf/issues/702
-    //uint8_t wifiProtocol = WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N; // can't have only one https://github.com/espressif/esp-idf/issues/702
-#elif ESP8266
-uint8_t wifiProtocol = 0; // default mode, automatic selection
-    //uint8_t wifiProtocol = WIFI_PHY_MODE_11B;
-    //uint8_t wifiProtocol = WIFI_PHY_MODE_11G;
-    //uint8_t wifiProtocol = WIFI_PHY_MODE_11N;
-#endif
+#include <stdint.h>
+extern uint8_t wifiProtocol;
 
 /*-------------DEFINE THE MODULES YOU WANT BELOW----------------*/
 //Addons and module management, uncomment the Z line corresponding to the module you want to use
@@ -380,5 +370,29 @@ uint8_t wifiProtocol = 0; // default mode, automatic selection
 
 /*-------------------DEFINE LOG LEVEL----------------------*/
 #define LOG_LEVEL LOG_LEVEL_NOTICE
+
+/* INO to CPP conversion */
+#include <ArduinoLog.h>
+#include <ArduinoJson.h>
+#include <PubSubClient.h>
+#include <Preferences.h>
+extern char mqtt_user[parameters_size];
+extern char mqtt_pass[parameters_size * 2];
+extern char mqtt_server[parameters_size];
+extern char mqtt_port[6];
+extern char mqtt_topic[mqtt_topic_max_size];
+extern char gateway_name[parameters_size * 2];
+extern PubSubClient client;
+extern Preferences preferences;
+extern JsonArray& modules;
+#define convertTemp_CtoF(c) ((c * 1.8) + 32)
+#define convertTemp_FtoC(f) ((f - 32) * 5 / 9)
+extern void pub_custom_topic(char*, JsonObject&, boolean);
+extern void pub(char*, char*, bool);
+extern void pub(char*, JsonObject&);
+extern void pub(char*, char*);
+extern bool cmpToMainTopic(char*, char*);
+extern void revert_hex_data(const char*, char*, int);
+/* INO to CPP conversion end */
 
 #endif

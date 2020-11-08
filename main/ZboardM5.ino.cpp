@@ -27,6 +27,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "User_config.h"
+/* INO to CPP conversion */
+#include <Arduino.h>
+#include "config_M5.h"
+#include "config_BT.h"
+
+void wakeScreen(int);
+void displayIntro(int, int, int);
+void drawLogo(int, int, int, bool, bool, bool, bool, bool, bool);
+/* INO to CPP conversion end */
 
 #if defined(ZboardM5STICKC) || defined(ZboardM5STACK)
 #  ifdef ZboardM5STICKC

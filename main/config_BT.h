@@ -59,9 +59,9 @@ extern void MQTTtoBT(char* topicOri, JsonObject& RFdata);
 
 #define ServicedataMinLength 29
 
-unsigned int BLEinterval = TimeBtwRead; //time between 2 scans
-unsigned int BLEscanBeforeConnect = ScanBeforeConnect; //Number of BLE scans between connection cycles
-bool publishOnlySensors = PublishOnlySensors;
+extern unsigned int BLEinterval;
+extern unsigned int BLEscanBeforeConnect;
+extern bool publishOnlySensors;
 
 #ifndef pubKnownBLEServiceData
 #  define pubKnownBLEServiceData false // define true if you want to publish service data belonging to recognised sensors
@@ -118,5 +118,12 @@ enum ble_sensor_model {
 #    define BT_TX 6 //arduino TX connect HM-10 or 11 RX
 #  endif
 #endif
+
+/* INO to CPP conversion */
+extern void changelow_power_mode(int);
+extern void startProcessing();
+extern void stopProcessing();
+extern void lowPowerESP32();
+/* INO to CPP conversion end */
 
 #endif

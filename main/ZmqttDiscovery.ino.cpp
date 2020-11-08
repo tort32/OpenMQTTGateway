@@ -24,6 +24,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "User_config.h"
+/* INO to CPP conversion */
+#include <Arduino.h>
+#include "config_BT.h"
+#include "config_mqttDiscovery.h"
+#include "config_GPIOInput.h"
+/* INO to CPP conversion end */
 
 #ifdef ZmqttDiscovery
 

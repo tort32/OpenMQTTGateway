@@ -53,4 +53,10 @@ extern void loopM5();
 /*-------------------DEFINE MQTT TOPIC FOR CONFIG----------------------*/
 #define subjectMQTTtoM5set "/commands/MQTTtoM5/config"
 
+/* INO to CPP conversion */
+extern void sleepScreen();
+extern void M5Display(char*, char*, char*);
+extern void MQTTtoM5(char*, JsonObject&);
+/* INO to CPP conversion end */
+
 #endif

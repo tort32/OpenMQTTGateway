@@ -42,4 +42,8 @@ extern void GPIOInputtoMQTT();
 #  endif
 #endif
 
+/* INO to CPP conversion */
+extern void MeasureGPIOInput();
+/* INO to CPP conversion end */
+
 #endif

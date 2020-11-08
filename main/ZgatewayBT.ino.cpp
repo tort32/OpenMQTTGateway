@@ -29,6 +29,32 @@
 Thanks to wolass https://github.com/wolass for suggesting me HM 10 and dinosd https://github.com/dinosd/BLE_PROXIMITY for inspiring me how to implement the gateway
 */
 #include "User_config.h"
+/* INO to CPP conversion */
+#include <Arduino.h>
+#include <M5Stack.h>
+#include "config_BT.h"
+#include "config_M5.h"
+#include "config_mqttDiscovery.h"
+
+void deepSleep(uint64_t);
+void haRoomPresence(JsonObject&);
+void PublishDeviceData(JsonObject&);
+void launchDiscovery();
+JsonObject& process_bledata(JsonObject&);
+JsonObject& process_sensors(int, JsonObject&);
+JsonObject& process_milamp(JsonObject&);
+JsonObject& process_cleargrass(JsonObject&, boolean);
+JsonObject& process_atc(JsonObject&);
+JsonObject& process_miband(JsonObject&);
+JsonObject& process_scale_v1(JsonObject&);
+JsonObject& process_scale_v2(JsonObject&);
+JsonObject& process_inkbird(JsonObject&);
+JsonObject& process_inode_em(JsonObject&);
+
+unsigned int BLEinterval = TimeBtwRead; //time between 2 scans
+unsigned int BLEscanBeforeConnect = ScanBeforeConnect; //Number of BLE scans between connection cycles
+bool publishOnlySensors = PublishOnlySensors;
+/* INO to CPP conversion end */
 
 #ifdef ZgatewayBT
 
